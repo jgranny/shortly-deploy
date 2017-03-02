@@ -5,7 +5,7 @@ mongoose.connect(mongoURI);
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', functino() {
+db.once('open', function() {
   console.log('Mongodb connectino open');
 });
 
