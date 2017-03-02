@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     concat: {
       options: { separator: ';'},
       dist: {
-        src: ['public/client/*.js'],
+        src: ['public/client/*.js', 'public/lib/*.js'],
         dest: 'public/dist/<%= pkg.name %>.js'
       }
     },
@@ -64,6 +64,11 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
+        command: 'git push live master',
+        options: {
+          stdout: true,
+          stderr: true
+        }
       }
     },
   });
@@ -86,15 +91,16 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
 
   grunt.registerTask('test', [
+    'eslint',
     'mochaTest'
   ]);
 
   grunt.registerTask('build', [
-    'eslint',
+    // 'nodemon',
     'concat',
     'uglify',
-    'mochaTest',
-    'nodemon'
+    'eslint',
+    'mochaTest'
   ]);
 
   grunt.registerTask('upload', function(n) {
@@ -107,6 +113,9 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', [
     // add your deploy tasks here
+    'test',
+    'build',
+    'upload'
   ]);
 
 
